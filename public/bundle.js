@@ -16448,8 +16448,8 @@ var Weather = function (_React$Component) {
 			function renderMessage() {
 				if (isLoading) {
 					return React.createElement(
-						'h3',
-						null,
+						'h4',
+						{ className: 'text-center' },
 						'Fetching weather...'
 					);
 				} else if (location && weather && temp) {
@@ -16462,7 +16462,7 @@ var Weather = function (_React$Component) {
 				null,
 				React.createElement(
 					'h3',
-					null,
+					{ className: 'text-center' },
 					'Get Weather'
 				),
 				React.createElement(WeatherForm, { onSearch: this.handleSearch }),
@@ -16523,10 +16523,9 @@ var WeatherForm = function (_React$Component) {
 				"form",
 				{ onSubmit: this.onFormSubmit },
 				React.createElement("input", { type: "text", ref: "location" }),
-				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ type: "submit", className: "button" },
+					{ type: "submit", className: "button hollow expanded" },
 					"Get Weather"
 				)
 			);
