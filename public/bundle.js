@@ -16498,7 +16498,7 @@ module.exports = {
 				city = res.data.list[0].name;
 			}
 
-			if (city !== location) {
+			if (city.toLowerCase() !== location.toLowerCase()) {
 				throw new Error("City not found");
 			} else {
 				return list;
@@ -16751,10 +16751,13 @@ var _require = __webpack_require__(69),
 var Nav = function (_React$Component) {
 	_inherits(Nav, _React$Component);
 
-	function Nav() {
+	function Nav(props) {
 		_classCallCheck(this, Nav);
 
-		return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).apply(this, arguments));
+		var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props));
+
+		_this.onSearch = _this.onSearch.bind(_this);
+		return _this;
 	}
 
 	_createClass(Nav, [{
@@ -16762,7 +16765,13 @@ var Nav = function (_React$Component) {
 		value: function onSearch(e) {
 			e.preventDefault();
 
-			alert('Not yet');
+			var location = this.refs.search.value;
+			var encodedLocation = encodeURIComponent(location);
+
+			if (location.length > 0) {
+				this.refs.search.value = '';
+				window.location.hash = '?location=' + encodedLocation;
+			}
 		}
 	}, {
 		key: 'render',
@@ -16822,7 +16831,7 @@ var Nav = function (_React$Component) {
 							React.createElement(
 								'li',
 								null,
-								React.createElement('input', { type: 'search', placeholder: 'Search by city' })
+								React.createElement('input', { type: 'search', placeholder: 'Search by city', ref: 'search' })
 							),
 							React.createElement(
 								'li',
@@ -16905,9 +16914,32 @@ var Weather = function (_React$Component) {
 
 				_this.setState({
 					isLoading: false,
-					errorMessage: error.message
+					errorMessage: error.message,
+					location: undefined,
+					weather: undefined,
+					temp: undefined
 				});
 			});
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var location = this.props.location.query.location;
+
+			if (location && location.length > 0) {
+				this.handleSearch(location);
+				window.location.hash = '';
+			}
+		}
+	}, {
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(newProps) {
+			var location = newProps.location.query.location;
+
+			if (location && location.length > 0) {
+				this.handleSearch(location);
+				window.location.hash = '';
+			}
 		}
 	}, {
 		key: 'render',

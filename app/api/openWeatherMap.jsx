@@ -15,7 +15,7 @@ module.exports = {
 				city = res.data.list[0].name;
 			}
 			
-			if(city !== location) {
+			if(city.toLowerCase() !== location.toLowerCase()) {
 				throw new Error("City not found");
 			} else {
 				return list;

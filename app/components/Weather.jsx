@@ -37,9 +37,30 @@ class Weather extends React.Component {
 
 			_this.setState({
 				isLoading: false,
-				errorMessage: error.message
+				errorMessage: error.message,
+				location: undefined,
+				weather: undefined,
+				temp: undefined
 			});
 		});
+	}
+
+	componentDidMount() {
+		var location = this.props.location.query.location;
+
+		if(location && location.length > 0) {
+			this.handleSearch(location);
+			window.location.hash = '';
+		}
+	}
+
+	componentWillReceiveProps(newProps) {
+		var location = newProps.location.query.location;
+
+		if(location && location.length > 0) {
+			this.handleSearch(location);
+			window.location.hash = '';
+		}
 	}
 
 	render() {
